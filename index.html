@@ -4,14 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Barış Tayyar Proje - DWG Portalı</title>
-    <script>
-      var sifre = prompt("Lütfen projeyi görüntülemek için şifreyi giriniz:");
-      if (sifre !== "300799") { // Şifreniz
-        alert("Hatalı şifre!");
-        document.write("<h1 style='color:white; text-align:center; margin-top:20%; font-family:sans-serif;'>Erişim engellendi.</h1>");
-        window.stop();
-      }
-    </script>
     <style>
       * { margin: 0; padding: 0; box-sizing: border-box; }
       body {
@@ -59,26 +51,93 @@
         transition: all 0.2s ease;
         box-shadow: 0 4px 12px rgba(6, 150, 215, 0.3);
         margin-bottom: 14px;
+        border: none;
+        cursor: pointer;
       }
       .btn:hover {
         background-color: #0077b5;
         transform: translateY(-2px);
+      }
+      #auth-screen {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .password-input {
+        width: 100%;
+        padding: 14px;
+        background-color: #121212;
+        border: 1px solid #444;
+        border-radius: 10px;
+        color: #ffffff;
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 15px;
+        outline: none;
+      }
+      .password-input:focus {
+        border-color: #0696d7;
+      }
+      .error-msg {
+        color: #ff5252;
+        font-size: 13px;
+        margin-bottom: 15px;
+        display: none;
+      }
+      #main-content {
+        display: none;
       }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <span class="badge">DWG Proje Portalı</span>
-    <h1>Barış Tayyar Proje</h1>
-    <p>Lütfen incelemek istediğiniz markayı veya binayı seçiniz:</p>
+    <!-- Şifre Giriş Ekranı -->
+    <div id="auth-screen">
+        <span class="badge">Güvenli Alan</span>
+        <h1>Şifre Korumalı Portal</h1>
+        <p>Lütfen devam etmek için şifreyi giriniz:</p>
+        <input type="password" id="password-box" class="password-input" placeholder="Şifre" autofocus>
+        <div id="error-text" class="error-msg">Hatalı şifre, lütfen tekrar deneyin.</div>
+        <button onclick="checkPassword()" class="btn">Giriş Yap</button>
+    </div>
 
-    <!-- Marka Yönlendirme Butonları -->
-    <a href="Audi/index.html" class="btn">Audi Projeleri ↗</a>
-    <a href="Porsche/index.html" class="btn">Porsche Projeleri ↗</a>
-    <a href="VW/index.html" class="btn">Volkswagen Projeleri ↗</a>
-    <a href="Servis/index.html" class="btn">Servis Projeleri ↗</a>
+    <!-- Asıl İçerik Ekranı (Şifre Doğruysa Açılır) -->
+    <div id="main-content">
+        <span class="badge">DWG Proje Portalı</span>
+        <h1>Barış Tayyar Proje</h1>
+        <p>Lütfen incelemek istediğiniz markayı veya binayı seçiniz:</p>
+
+        <!-- Marka Yönlendirme Butonları -->
+        <a href="Audi/index.html" class="btn">Audi Projeleri ↗</a>
+        <a href="Porsche/index.html" class="btn">Porsche Projeleri ↗</a>
+        <a href="VW/index.html" class="btn">Volkswagen Projeleri ↗</a>
+        <a href="Servis/index.html" class="btn">Servis Projeleri ↗</a>
+    </div>
 </div>
+
+<script>
+    function checkPassword() {
+        const inputVal = document.getElementById('password-box').value;
+        const errorText = document.getElementById('error-text');
+
+        if (inputVal === "300799") {
+            document.getElementById('auth-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+        } else {
+            errorText.style.display = 'block';
+            document.getElementById('password-box').value = '';
+            document.getElementById('password-box').focus();
+        }
+    }
+
+    // Klavyeden 'Enter' tuşuna basıldığında da çalışması için
+    document.getElementById('password-box').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            checkPassword();
+        }
+    });
+</script>
 
 </body>
 </html>
