@@ -83,6 +83,7 @@
         font-size: 13px;
         margin-bottom: 15px;
         display: none;
+        min-height: 20px;
       }
       #main-content {
         display: none;
@@ -94,12 +95,12 @@
 <div class="container">
     <!-- Şifre Giriş Ekranı -->
     <div id="auth-screen">
-        <span class="badge">Güvenli Alan</span>
-        <h1>Şifre Korumalı Portal</h1>
-        <p>Lütfen devam etmek için şifreyi giriniz:</p>
+        <span class="badge">Özel Alan 🏗️</span>
+        <h1>Mühendislik Arşivi</h1>
+        <p>Bakalım projeleri açabilecek misin, şifreyi gir bakalım:</p>
         <input type="password" id="password-box" class="password-input" placeholder="Şifre" autofocus>
-        <div id="error-text" class="error-msg">Hatalı şifre, lütfen tekrar deneyin.</div>
-        <button onclick="checkPassword()" class="btn">Giriş Yap</button>
+        <div id="error-text" class="error-msg"></div>
+        <button onclick="checkPassword()" class="btn">Kapıyı Aç 🚪</button>
     </div>
 
     <!-- Asıl İçerik Ekranı (Şifre Doğruysa Açılır) -->
@@ -117,6 +118,14 @@
 </div>
 
 <script>
+    const funnyErrors = [
+        "Aşk olsun, kendi şifreni de mi unuttun? 😉",
+        "Yanlış şifre! Barış'ı arayıp şifreyi sor istersen. 📞",
+        "Mühendislik harikası şifre ama bu olmadı, tekrar dene! 🏗️",
+        "Yanlış tuşa bastığını varsayıyorum, bir daha dene bakalım. 🕵️‍♂️",
+        "Hata! Yoksa dışarıdan hackerlar mı zorluyor sistemi? 🛑"
+    ];
+
     function checkPassword() {
         const inputVal = document.getElementById('password-box').value;
         const errorText = document.getElementById('error-text');
@@ -125,13 +134,16 @@
             document.getElementById('auth-screen').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
         } else {
+            // Rastgele bir esprili hata mesajı seç
+            const randomError = funnyErrors[Math.floor(Math.random() * funnyErrors.length)];
+            errorText.innerText = randomError;
             errorText.style.display = 'block';
             document.getElementById('password-box').value = '';
             document.getElementById('password-box').focus();
         }
     }
 
-    // Klavyeden 'Enter' tuşuna basıldığında da çalışması için
+    // Enter tuşuna duyarlılık
     document.getElementById('password-box').addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             checkPassword();
